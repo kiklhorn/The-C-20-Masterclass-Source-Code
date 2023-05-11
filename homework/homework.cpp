@@ -111,21 +111,72 @@
 //     return 0;
 // }
 
-#include <iostream>
+// #include <iostream>
 
-double x,y;
+// double x,y;
+
+// int main(){
+//     std::cout << "Point x axe and point y axe : " << std::endl;
+//     std::cin >> x >> y;
+//     // std::cout << "Point y axe : " << std::endl;
+//     // std::cin >> y;
+//     std::cout << "Point x axe : " << x << " Point y axe : " << y << std::endl;
+//     if (x >= -10.0 && x <=10.0 && y >= -5.0 && y <=5.0){
+//         std::cout << "You are completely surrounded. Don't move!" << std::endl;
+//     } else {
+//         std::cout << "You're out of reach!" << std::endl;
+        
+//     }
+//     return 0;
+// }
+
+
+#include <iostream>
+#include <iomanip>
+
+int year{2020}, month{1}, day{1}, dayofweek{1};
+bool is_leap;
+const char* monthnames[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 int main(){
-    std::cout << "Point x axe and point y axe : " << std::endl;
-    std::cin >> x >> y;
-    // std::cout << "Point y axe : " << std::endl;
-    // std::cin >> y;
-    std::cout << "Point x axe : " << x << " Point y axe : " << y << std::endl;
-    if (x >= -10.0 && x <=10.0 && y >= -5.0 && y <=5.0){
-        std::cout << "You are completely surrounded. Don't move!" << std::endl;
-    } else {
-        std::cout << "You're out of reach!" << std::endl;
-        
+    std::cout << "Callendar generator. What year you want? :" << std::endl;
+    std::cin >> year;
+    //zeller's congruence
+    dayofweek= ((42+((year-1)%100)+(((year-1)%100)/4)+((year-1)/400)+(5*((year-1)/100)))%7); //num of leading blanks
+    is_leap = ((!(year % 4) && (year % 100)) || (!(year % 4) && !(year % 100) && !(year % 400)));
+    for (int month = 1; month <= 12; month++){
+        std::cout << std::endl << std::endl;
+        std::cout << monthnames[month-1] << " " << year << ": "<< std::endl;
+        std::cout << std::setw(2) << "Mo " << "Tu " << "We " << "Th " << "Fr " << "Sa " << "Su" << std::endl;
+        for (size_t i = 1; i <= dayofweek; i++){ //align days
+            std::cout << std::setw(3) << " ";
+      }
+        for (int day = 1; day <= 31; day++){
+            switch (month)
+                {
+                case 2:
+                    if (is_leap && day > 29)
+                        break;
+                    if (!is_leap && day > 28)
+                        break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    if (day > 30)
+                        break;
+                default:
+                    dayofweek += 1;
+                    if (dayofweek > 7){
+                        dayofweek = 1;
+                        std::cout << std::endl;
+                    }
+                    std::cout << std::setw(2) << day << " ";
+
+                }
+
+        }
     }
+
     return 0;
 }
